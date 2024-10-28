@@ -1,0 +1,42 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca NYT</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/modal.css">
+
+</head>
+
+<body>
+
+<main class="libros">
+    <h3>Biblioteca NYT</h3>
+
+    <div id="datosLibros"></div>
+
+    <div id="fondoModal" class="bg_modal hidden">
+        <div class="modal">
+            <p id="txtModal">Mensaje de error</p>
+            <button id="closeModal">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="fondo">
+        <div class="contenido">
+            <h1>{{}}</h1>
+            <p>{{}}</p>
+        </div>
+    </div>
+    
+</main>
+
+<script src="./js/utils.js"></script>
+<script src="./js/modal.js"></script>
+<script src="./js/main.js"></script>
+
+</body>
+</html>
