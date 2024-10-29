@@ -1,30 +1,93 @@
 
-function pintarLibroHTML(libro){
+// pintarLibrosHTML
+async function pintarLibrosHTML(valor) {
 
-    let htmlResponse = "";
-    htmlResponse += `
-        <div class="box">
-            <!--<img src="${libro.imageLink}" alt="${libro.title}">-->
-            <div class="title">${libro.title || 'Título no disponible'}</div>
-            <div class="author">Autor: ${libro.author || 'Autor no disponible'}</div>
-            <div class="details">
-                País: ${libro.country || 'País no disponible'}<br>
-                Páginas: ${libro.pages ? libro.pages : 'No disponible'}<br>
-                Año: ${libro.year || 'Año no disponible'}<br>
-                <a href="${libro.link || '#'}" target="_blank">Más información</a>
-            </div>
-        </div>
-    `;
-    return htmlResponse;
+    //event.preventDefault(); // evita el desplazamiento del scroll
+
+    try {
+        // mostramos la capa de cargar datos
+        MO_objID('boxCargarDatos', 'flex');
+
+        // https://api.nytimes.com/svc/books/v3/lists/current/${valor}.json?api-key=PI1OamH6ecCkG49J1RyGL49hFgpkauFF
+        // https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=PI1OamH6ecCkG49J1RyGL49hFgpkauFF
+
+        let api_key = "PI1OamH6ecCkG49J1RyGL49hFgpkauFF"
+        const response = await fetch(`https://api.nytimes.com/svc/books/v3/lists/current/${valor}.json?api-key=${api_key}`);
+        const data = await response.json();
+        const results = data.results;
+        let books = results.books;
+        console.log(results);
+
+        MO_objID('boxCargarDatos', 'none'); // ocultamos la capa de cargar datos
+
+        MO_objID('boxLibros', 'block'); // mostramos la capa de cargar datos
+        MO_objID('boxCategoriasLibros', 'none'); // ocultamos la capa de cargar datos
+
+        let txtInfoSPAN = qSelector("#txtInfoLibros span");
+        txtInfoSPAN.innerHTML = books.length;
+
+        let dataResultadosLibros = getById("dataResultadosLibros");
+
+        let cadena = "";
+        cadena += "<div class='boxBooks'>";
+
+        books.forEach((item, index) => {
+            let rank = item.rank; 
+            let title = item.title; 
+            let book_image = item.book_image;
+
+            let weeks_on_list = item.weeks_on_list;
+            let description = item.description;
+            let amazon_product_url = item.amazon_product_url;
+
+            let imgSRC = (book_image) ? book_image : './assets/img/imgDefault.png';
+
+            cadena += `
+                <div class="box">
+                    <div class="tituloBook">
+                        <label class="num">#${rank}</label>
+                        <span>${title}</span>
+                    </div>
+                    <div class="item especial">
+                        <img src="${imgSRC}" class="img_width" title="${title}">
+                    </div>
+                    <div class="item">
+                        <label class="dato">Weeks on list: ${weeks_on_list}</label>
+                    </div>
+                    <div class="item">
+                        <label class="dato">Description: ${description}</label>
+                    </div>
+
+                    <div class="item">
+                        <label class="datoMain">
+                            <a href="${amazon_product_url}" target="_blank">
+                                BUY AT AMAZON
+                            </a>
+                        </label>
+                    </div>
+                </div>
+            `;
+        });
+        cadena += "</div>";
+        dataResultadosLibros.innerHTML = cadena;
+
+    } catch (error) {
+        // si se produjo un error
+        // ocultamos la capa de cargar datos
+        MO_objID('boxCargarDatos', 'none');
+
+        console.error(error);
+        mostrarModal(error);
+    }
 }
 
-// getLibros()
-function getLibros(mURL) {
+
+// getListadoCategorias()
+function getListadoCategorias(mURL) {
 
     // mostramos la capa de cargar datos
     MO_objID('boxCargarDatos', 'flex');
 
-    //const valorURL = url;
     const url = mURL;
 
     let resultado = fetch(url)
@@ -51,25 +114,28 @@ function getLibros(mURL) {
             // ocultamos la capa de cargar datos
             MO_objID('boxCargarDatos', 'none');
         });
-        return resultado;
+    return resultado;
 }
 
-function obtenerLibrosBiblioteca(){
+function pintarCategoriasBiblioteca(){
 
     let apiKey = "PI1OamH6ecCkG49J1RyGL49hFgpkauFF";
-
-    getLibros('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=' + apiKey)
+    // https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=PI1OamH6ecCkG49J1RyGL49hFgpkauFF
+    getListadoCategorias('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=' + apiKey)
     .then(datos => {
     
         console.log(datos);
-        let datosLibros = getById("datosLibros");
-        datosLibros.innerHTML = `Total de listas de libros: ${datos.length}`;
+
+        let txtInfoSPAN = qSelector("#txtInfoCategorias span");
+        txtInfoSPAN.innerHTML = datos.length;
+
+        let dataResultadosCategorias = getById("dataResultadosCategorias");
         
         let cadena = "";
+        cadena += "<div class='boxBooks'>";
 
-        datos.forEach(item => {
+        datos.forEach((item, index) => {
             let list_name = item.list_name; 
-            let display_name = item.display_name; 
             let list_name_encoded = item.list_name_encoded; 
             let oldest_published_date = item.oldest_published_date;
             let newest_published_date = item.newest_published_date;
@@ -77,20 +143,44 @@ function obtenerLibrosBiblioteca(){
     
             cadena += `
                 <div class="box">
-                    <strong>list_name:</strong> <label>${list_name}</label><br>
-                    <strong>display_name:</strong> <label>${display_name}</label><br>
-                    <strong>list_name_encoded:</strong> <label>${list_name_encoded}</label><br>
-                    <strong>oldest_published_date:</strong> <label>${oldest_published_date}</label><br>
-                    <strong>newest_published_date:</strong> <label>${newest_published_date}</label><br>
-                    <strong>updated:</strong> <label>${updated}</label>
+                    <label class="num">List Name ${index + 1}</label>
+                    <div class="item">
+                        <label class="datoMain">
+                            <a href="#" onclick="pintarLibrosHTML('${list_name_encoded}')">
+                                ${list_name}
+                            </a>
+                        </label>
+                    </div>
+                    <div class="item">
+                        <label>Oldest:</label>
+                        <label class="dato">${oldest_published_date}</label>
+                    </div>
+                    <div class="item">
+                        <label>Newest:</label>
+                        <label class="dato">${newest_published_date}</label>
+                    </div>
+                    <div class="item">
+                        <label>Updated:</label>
+                        <label class="dato">${updated}</label>
+                    </div>
                 </div>
             `;
         });
-        datosLibros.innerHTML = cadena;
+        cadena += "</div>";
+        dataResultadosCategorias.innerHTML = cadena;
     });
 }
 
+let btn_volverIndice = getById("btn_volverIndice");
+btn_volverIndice.addEventListener('click', () => {
+    
+    MO_objID('boxLibros', 'none'); // ocultamos la capa de cargar datos
+    MO_objID('boxCategoriasLibros', 'block'); // mostramos la capa de cargar datos
+
+});
+
 window.addEventListener('load', () => {
     
-    obtenerLibrosBiblioteca();
+    pintarCategoriasBiblioteca();
+
 });

@@ -1,9 +1,22 @@
 
 /* Botón para abrir el modal */
-button {
-    padding: 10px 20px;
-    font-size: 16px;
+.button {
+    padding: 8px;
+    margin-top: 5px;
     cursor: pointer;
+    font-size: 1.0em;
+    background-color: rgb(222, 186, 139);
+
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); /* Sombra para el botón */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Efecto suave en hover */
+}
+
+.button:hover {
+    background-color: rgb(233, 207, 174);  /* Color de fondo en hover */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3); /* Sombra más intensa en hover */
 }
 
 /* Fondo del modal */
@@ -20,7 +33,7 @@ button {
     background-color: rgba(0, 0, 0, 0.7); /* Fondo negro transparente */
 }
 
-/* Ocultar modal por defecto */
+
 .hidden {
     display: none;
 }

@@ -48,18 +48,54 @@ main.libros h3 {
 
 /* ******************************* */
 
+#txtInfoCategorias{
+    width: auto;
+    display: inline-block;
+
+    margin:10px 0px 3px 0px;
+    padding:3px 5px 3px 5px;
+
+    border-radius: 5px 5px 5px 5px;
+    background-color: #e7f4f5;
+    border: 1px solid rgb(122, 165, 181);
+}
+#txtInfoCategorias label{
+    font-weight:bold;
+}
+
+/* ******************************* */
+
+#txtInfoLibros{
+    width: auto;
+    display: inline-block;
+
+    margin:10px 0px 3px 0px;
+    padding:3px 5px 3px 5px;
+
+    border-radius: 5px 5px 5px 5px;
+    background-color: #e7f4f5;
+    border: 1px solid rgb(122, 165, 181);
+}
+#txtInfoLibros label{
+    font-weight:bold;
+}
+
+/* ******************************* */
+
 .boxBooks {
     gap: 10px;
-    padding: 20px;
+    padding: 0px 0px 10px 0px;
+
     display: flex;
     flex-wrap: wrap; 
+    justify-content: space-between;
 }
 
 .box {
-    padding: 20px;
-    flex: 1 1 200px;
+    padding: 10px;
+    flex: 1 1 25%;
     color: #888888;
-    text-align: center;
+    text-align: left;
     word-break: break-word;
 
     border-radius: 10px;
@@ -68,33 +104,115 @@ main.libros h3 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.box .title {
-    font-size: 16px;
+.item {
+    margin: 0px;
+    padding: 5px 0px 5px 0px;
+    /* border-bottom: 1px dotted #999999; */
+}
+.item:last-child {
+    margin: 0px;
+    /* border-bottom: 0px solid #999999; */
+}
+
+label.num {
+    width: auto;
+    display: inline-block;
+    padding:3px 5px 3px 5px;
+    margin-bottom:2px;
+
+    font-weight:bold;
+
+    border-radius: 5px;
+    background-color: #D9E9BE;
+    border: 1px solid rgb(57, 168, 24);
+}
+.item label {
+    display: block;
+    padding: 2px 2px 2px 5px;
+
+    color: #333;
     font-weight: bold;
-    margin-bottom: 5px;
-    text-align: center;
+
+    background-color: #e2e7ec;
+    border-radius: 5px 5px 0px 0px;
 }
 
-.box .author {
-    font-size: 16px;
-    margin-bottom: 5px;
-    text-align: center;
+.item .dato {
+    padding-top: 10px;
+    padding: 5px 5px 5px 5px;
+
+    color: #333333;
+    font-weight: normal;
+
+    background-color: #F5F9EE;
+    border-radius: 0px 0px 5px 5px;
 }
 
-.box .details {
-    font-size: 14px;
-    color: #555;
-    text-align: center;
-    margin-bottom: 10px;
+.item .datoMain {
+    padding-top: 10px;
+    padding: 5px 5px 5px 5px;
+
+    color: #333333;
+    font-weight: normal;
+
+    background-color: #eef8f9;
+    border-radius: 5px 5px 5px 5px;
 }
 
-.box .details a {
+.box .datoMain a {
+    font-size: 1.3em;
     color: #007bff;
     text-decoration: none;
 }
 
-.box .details a:hover {
+.box .datoMain a:hover {
+    font-size: 1.3em;
     text-decoration: underline;
+}
+
+.item.especial {
+
+    padding: 5px 5px 5px 5px;
+
+    border-radius: 5px;
+    background-color: #f8f9ee;
+}
+
+.tituloBook {
+
+    padding: 5px 5px 5px 5px;
+    
+    border-radius: 5px 5px 0px 0px;
+    background-color: #d6dd84;
+}
+.tituloBook .num {
+    width: auto;
+    display: inline-block;
+    padding:3px 5px 3px 5px;
+    margin-bottom:2px;
+
+    font-weight:bold;
+
+    border-radius: 5px;
+    background-color: #f6f8f3;
+    border: 1px solid rgb(163, 207, 150);
+}
+.tituloBook .span {
+    font-weight:bold;
+}
+
+/* ******************************* */
+
+.img_width {
+
+    height: auto; /* Mantiene la proporción de la imagen */
+    max-width: 100%; /* Previene que la imagen se salga del contenedor */
+
+    width: 65%;       /* Ocupa el 75% del ancho del contenedor */
+    display: block;   /* Necesario para centrar con margin auto */
+    margin: 0 auto;
+
+    border-radius: 5px;
 }
 
 /* ******************************* */
@@ -148,3 +266,5 @@ main.libros h3 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* ******************************* */
