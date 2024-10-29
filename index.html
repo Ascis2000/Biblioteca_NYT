@@ -16,7 +16,42 @@
 <main class="libros">
     <h3>Biblioteca NYT</h3>
 
-    <div id="datosLibros"></div>
+    <div id="boxCategoriasLibros">
+        <div class="filters">
+            <div id="txtInfoCategorias">
+                <label>Total de Categorías de libros:</label>
+                <span></span>
+            </div>
+
+            <!-- <label for="search">Buscar:</label>
+            <input type="text" id="search" placeholder="Buscar libros...">
+        
+            <label for="topics">Tema:</label>
+            <select id="topics">
+                <option value="">Selecciona un tema</option>
+                <option value="ficcion">Ficción</option>
+                <option value="no-ficcion">No Ficción</option>
+                <option value="aventura">Aventura</option>
+            </select> -->
+        </div>
+        <div id="dataResultadosCategorias"></div>
+    </div>
+
+    <div id="boxLibros" class="hidden">
+        <label>
+            <button id="btn_volverIndice" class="button">
+                Volver al Index
+            </button>
+        </label>
+
+        <div class="filters">
+            <div id="txtInfoLibros">
+                <label>Total de libros:</label>
+                <span></span>
+            </div>
+        </div>
+        <div id="dataResultadosLibros"></div>
+    </div>
 
     <div id="boxCargarDatos" class="bg_modal hidden">
         <div class="modal white">
@@ -28,7 +63,7 @@
     <div id="boxModal" class="bg_modal hidden">
         <div class="modal white">
             <p id="txtModal"></p>
-            <button id="btn_closeModal">Cerrar</button>
+            <button id="btn_closeModal" class="button">Cerrar</button>
         </div>
     </div>
     
