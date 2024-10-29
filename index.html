@@ -18,13 +18,20 @@
 
     <div id="datosLibros"></div>
 
-    <div id="fondoModal" class="bg_modal hidden">
-        <div class="modal">
-            <p id="txtModal">Mensaje de error</p>
-            <button id="closeModal">Cerrar</button>
+    <div id="boxCargarDatos" class="bg_modal hidden">
+        <div class="modal white">
+            <label>Cargando datos...</label>
+            <div class="loader white"></div>
         </div>
     </div>
 
+    <div id="boxModal" class="bg_modal hidden">
+        <div class="modal white">
+            <p id="txtModal"></p>
+            <button id="btn_closeModal">Cerrar</button>
+        </div>
+    </div>
+    
     <div class="fondo">
         <div class="contenido">
             <h1>{{}}</h1>
