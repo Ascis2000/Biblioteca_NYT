@@ -27,12 +27,26 @@ button {
 
 /* Estilos de la ventana modal */
 .modal {
-    background-color: #ffffff;
+    width: 400px;
     padding: 20px;
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra en el eje Y */
+    margin: 0px 10px;
+
+    font-size:1.3em;
+    font-weight:bold;
     text-align: center;
-    width: 300px;
+
+    word-wrap: break-word;
+    
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra en el eje Y */
+}
+.modal.white{
+    color: rgb(13, 38, 76);
+    background-color: #ffffff;
+}
+.modal.black{
+    color: rgb(255, 255, 255);
+    background-color: #1e2d38;
 }
 
 /* Botón dentro del modal */
@@ -50,3 +64,4 @@ button {
 .modal button:hover {
     background-color: #0056b3;
 }
+

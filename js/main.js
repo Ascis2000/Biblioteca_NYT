@@ -21,6 +21,9 @@ function pintarLibroHTML(libro){
 // getLibros()
 function getLibros(mURL) {
 
+    // mostramos la capa de cargar datos
+    MO_objID('boxCargarDatos', 'flex');
+
     //const valorURL = url;
     const url = mURL;
 
@@ -38,39 +41,56 @@ function getLibros(mURL) {
         })
         .catch(error => {
             console.error('Error al conectar:', error);
-            const boxMensaje = document.getElementById('mensaje');
+            
             let cadena = "";
             cadena += "Error al conectar con la BB.DD";
-            boxMensaje.innerHTML = cadena; // Mensaje de error en el DOM
+
+            mostrarModal(cadena);
+        })
+        .finally(() => {
+            // ocultamos la capa de cargar datos
+            MO_objID('boxCargarDatos', 'none');
         });
         return resultado;
 }
 
-window.addEventListener('load', () => {
-    
-    getLibros('https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=PI1OamH6ecCkG49J1RyGL49hFgpkauFF').then(datos => {
+function obtenerLibrosBiblioteca(){
+
+    let apiKey = "PI1OamH6ecCkG49J1RyGL49hFgpkauFF";
+
+    getLibros('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=' + apiKey)
+    .then(datos => {
     
         console.log(datos);
-        let datosLibros = document.getElementById("datosLibros");
-        datosLibros.innerHTML = `Total de libros: ${datos.books.length}`;
+        let datosLibros = getById("datosLibros");
+        datosLibros.innerHTML = `Total de listas de libros: ${datos.length}`;
+        
+        let cadena = "";
+
+        datos.forEach(item => {
+            let list_name = item.list_name; 
+            let display_name = item.display_name; 
+            let list_name_encoded = item.list_name_encoded; 
+            let oldest_published_date = item.oldest_published_date;
+            let newest_published_date = item.newest_published_date;
+            let updated = item.updated;
     
-        /* datos.forEach(item => {
-            let list_name = item.list_name; // Obtener la magnitud del terremoto
-            const coords = item.geometry.coordinates; // Obtener las coordenadas (longitud, latitud)
-            const latLng = [coords[1], coords[0]]; // Leaflet usa lat, long en vez de long, lat
-    
-            // Determinar el color del marcador según la magnitud
-            let markerColor = getMarkerColors(magnitud);
-            let fecha = milisegundosToFecha(item.properties.time);
-    
-            let cadena = "";
             cadena += `
-                <strong>Título:</strong> <label>${item.properties.title}</label><br>
-                <strong>Fecha:</strong> <label>${fecha}</label><br>
-                <strong>Ubicación:</strong> <label>${item.properties.place}</label><br>
-                <strong>Código:</strong> <label>${item.properties.code}</label><br>
-                <strong>Magnitud:</strong> <label>${item.properties.mag}</label>
+                <div class="box">
+                    <strong>list_name:</strong> <label>${list_name}</label><br>
+                    <strong>display_name:</strong> <label>${display_name}</label><br>
+                    <strong>list_name_encoded:</strong> <label>${list_name_encoded}</label><br>
+                    <strong>oldest_published_date:</strong> <label>${oldest_published_date}</label><br>
+                    <strong>newest_published_date:</strong> <label>${newest_published_date}</label><br>
+                    <strong>updated:</strong> <label>${updated}</label>
+                </div>
             `;
-        }); */
+        });
+        datosLibros.innerHTML = cadena;
     });
+}
+
+window.addEventListener('load', () => {
+    
+    obtenerLibrosBiblioteca();
 });
