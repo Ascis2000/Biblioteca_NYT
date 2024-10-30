@@ -44,16 +44,8 @@
     </div>
 
     <div id="boxLOGINS">
-        <section id="button-set" style="display:none;">
-            <button id="create">Create</button>
-            <button id="read-all">Read All</button>
-            <button id="read-one">Find One by Id</button>
-            <button id="delete">Delete</button>
-            <button id="clean">Clean</button>
-        </section>
-
         <div id="box_signUp">
-            <h3>Formulario de Registro</h3>
+            <h3>Formulario Sign Up</h3>
             <form id="frm_signUp" action="#" method="POST" class="forms">
                 <div>
                     <label for="email">Email:</label>
@@ -68,7 +60,7 @@
         </div>
 
         <div id="box_signIn">
-            <h3>Formulario de Login</h3>
+            <h3>Formulario Sign In</h3>
             <form id="frm_signIn" action="#" method="POST" class="forms">
                 <div>
                     <label for="email2">Email:</label>
@@ -112,6 +104,8 @@
 
         <div class="filters">
             <div id="txtInfoLibros">
+                <label>Categoria:</label>
+                <span></span>
                 <label>Total de libros:</label>
                 <span></span>
             </div>
@@ -129,6 +123,7 @@
     <div id="boxModal" class="bg_modal hidden">
         <div class="modal white">
             <p id="txtModal"></p>
+            <label id="txtMensajeModal"></label>
             <div class="buttonsModal">
                 <button id="btn_closeModal" class="button">Cerrar</button>
             </div>

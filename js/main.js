@@ -43,6 +43,7 @@ function getListadoCategorias(mURL) {
 async function pintarLibrosHTML(valor) {
 
     //event.preventDefault(); // evita el desplazamiento del scroll
+    const user = firebase.auth().currentUser;
 
     try {
         // mostramos la capa de cargar datos
@@ -54,7 +55,11 @@ async function pintarLibrosHTML(valor) {
         let api_key = "PI1OamH6ecCkG49J1RyGL49hFgpkauFF"
         const response = await fetch(`https://api.nytimes.com/svc/books/v3/lists/current/${valor}.json?api-key=${api_key}`);
         const data = await response.json();
+
         const results = data.results;
+        let nombreCategoria = results.list_name;
+        let categoriaEncoded = results.list_name_encoded;
+
         let books = results.books;
         console.log(results);
 
@@ -63,8 +68,11 @@ async function pintarLibrosHTML(valor) {
         MO_objID('boxLibros', 'block'); // mostramos la capa de cargar datos
         MO_objID('boxCategoriasLibros', 'none'); // ocultamos la capa de cargar datos
 
-        let txtInfoSPAN = qSelector("#txtInfoLibros span");
-        txtInfoSPAN.innerHTML = books.length;
+        let txtInfoSPAN_1 = qSelector("#txtInfoLibros span:nth-of-type(1)");
+        txtInfoSPAN_1.innerHTML = nombreCategoria + ". ";
+
+        let txtInfoSPAN_2 = qSelector("#txtInfoLibros span:nth-of-type(2)");
+        txtInfoSPAN_2.innerHTML = books.length + ".";
 
         let dataResultadosLibros = getById("dataResultadosLibros");
 
@@ -80,32 +88,46 @@ async function pintarLibrosHTML(valor) {
             let description = item.description;
             let amazon_product_url = item.amazon_product_url;
 
+            let primary_isbn13 = item.primary_isbn13;
+
             let imgSRC = (book_image) ? book_image : './assets/img/imgDefault.png';
 
             cadena += `
-                <div class="box">
-                    <div class="tituloBook">
-                        <label class="num">#${rank}</label>
-                        <span>${title}</span>
-                    </div>
-                    <div class="item especial">
-                        <img src="${imgSRC}" class="img_width" title="${title}">
-                    </div>
-                    <div class="item">
-                        <label class="dato">Weeks on list: ${weeks_on_list}</label>
-                    </div>
-                    <div class="item">
-                        <label class="dato">Description: ${description}</label>
-                    </div>
-
-                    <div class="item">
-                        <label class="datoMain">
-                            <a href="${amazon_product_url}" target="_blank">
-                                BUY AT AMAZON
-                            </a>
-                        </label>
-                    </div>
+            <div class="box">
+                <div class="tituloBook">
+                    <label class="num">#${rank}</label>
+                    <span>${title}</span>
                 </div>
+                <div class="item especial">
+                    <img src="${imgSRC}" class="img_width" title="${title}">
+                </div>
+                <div class="item">
+                    <label class="dato">Weeks on list: ${weeks_on_list}</label>
+                </div>
+                <div class="item">
+                    <label class="dato">Description: ${description}</label>
+                </div>
+            `
+            if(user){
+                cadena += `
+                    <div class="item right">
+                        <i class="fas fa-star off" 
+                            title="Añadir a Favoritos" 
+                            data_isbn="id_${primary_isbn13}"
+                            onclick="addFavoritos('${categoriaEncoded}', '${primary_isbn13}');"
+                        ></i>
+                    </div>
+                `
+            }
+            cadena += `
+                <div class="item">
+                    <label class="datoCompra">
+                        <a href="${amazon_product_url}" target="_blank">
+                            BUY AT AMAZON
+                        </a>
+                    </label>
+                </div>
+            </div>
             `;
         });
         cadena += "</div>";

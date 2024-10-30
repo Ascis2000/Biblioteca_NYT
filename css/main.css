@@ -76,8 +76,10 @@ main.libros {
     position: absolute;
     top: 35px; /* Ajusta para posicionar debajo del ícono */
     right: 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #f4f3de;
+    background: linear-gradient(to bottom, #ffffff, #f4f3de);
+
+    border: 1px solid #DCE37D;
     padding: 9px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -241,14 +243,32 @@ label.num {
     background-color: #eef8f9;
     border-radius: 5px 5px 5px 5px;
 }
-
 .box .datoMain a {
     font-size: 1.3em;
     color: #007bff;
     text-decoration: none;
 }
-
 .box .datoMain a:hover {
+    font-size: 1.3em;
+    text-decoration: underline;
+}
+
+.item .datoCompra {
+    padding-top: 10px;
+    padding: 5px 5px 5px 5px;
+
+    color: #333333;
+    font-weight: normal;
+
+    background-color: #f1e2bb;
+    border-radius: 5px 5px 5px 5px;
+}
+.box .datoCompra a {
+    font-size: 1.3em;
+    color: #8d6b15;
+    text-decoration: none;
+}
+.box .datoCompra a:hover {
     font-size: 1.3em;
     text-decoration: underline;
 }
@@ -261,12 +281,23 @@ label.num {
     background-color: #f8f9ee;
 }
 
+.item i.fa-star.off{
+    color: rgb(143, 139, 118);
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.item i.fa-star.on{
+    color: gold;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
 .tituloBook {
 
     padding: 5px 5px 5px 5px;
     
-    border-radius: 5px 5px 0px 0px;
-    background-color: #d6dd84;
+    border-radius: 5px 5px 2px 2px;
+    background-color: #bedbec;
 }
 .tituloBook .num {
     width: auto;
@@ -280,8 +311,13 @@ label.num {
     background-color: #f6f8f3;
     border: 1px solid rgb(163, 207, 150);
 }
-.tituloBook .span {
+.tituloBook span {
     font-weight:bold;
+    color: rgb(83, 111, 148);
+}
+
+.right{
+    text-align:right;
 }
 
 /* ******************************* */

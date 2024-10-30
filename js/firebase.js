@@ -9,92 +9,21 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);// Inicializar app Firebase
-
 const db = firebase.firestore();// db representa mi BBDD //inicia Firestore
-
-//Función auxiliar para pintar una foto en el album
-const printPhoto = (title, url, docId) => {
-	let card = document.createElement('article');
-	card.setAttribute('class', 'card');
-	let picture = document.createElement('img');
-	picture.setAttribute('src', url);
-	picture.setAttribute('style', 'max-width:250px');
-	let caption = document.createElement('p');
-	caption.innerHTML = title;
-	let id = document.createElement('p');
-	id.innerHTML = docId;
-	const album = document.getElementById('album');
-	card.appendChild(picture);
-	card.appendChild(caption);
-	card.appendChild(id);
-	album.appendChild(card);
-};
-
-// Create
-const createPicture = (picture) => {
-	db.collection("nyt_books")
-		.add(picture)
-		.then((docRef) => {
-			console.log("Document written with ID: ", docRef.id)
-			readAll();
-		})
-		.catch((error) => console.error("Error adding document: ", error));
-};
-
 
 // Read all
 const readAll = () => {
-	// Limpia el album para mostrar el resultado
-	cleanAlbum();
 
 	//Petición a Firestore para leer todos los documentos de la colección album
 	db.collection("nyt_books")
 		.get()
 		.then((querySnapshot) => {
 			querySnapshot.forEach((doc) => {
-				printPhoto(doc.data().title, doc.data().url, doc.id)
+				
 			});
-
 		})
 		.catch(() => console.log('Error reading documents'));
 };
-
-// Delete
-const deletePicture = () => {
-	const id = prompt('Introduce el ID a borrar');
-	db.collection('album').doc(id).delete().then(() => {
-		alert(`Documento ${id} ha sido borrado`);
-		//Clean
-		document.getElementById('album').innerHTML = "";
-		//Read all again
-		readAll();
-	})
-		.catch(() => console.log('Error borrando documento'));
-};
-
-//Clean 
-const cleanAlbum = () => {
-	document.getElementById('album').innerHTML = "";
-};
-
-//Show on page load
-/* readAll(); */
-
-//**********EVENTS**********
-
-//Create
-document.getElementById("create").addEventListener("click", () => {
-	const title = prompt("Introduce el título de tu foto");
-	const url = prompt("Introduce la url de tu foto");
-	if (!title || !url) {
-		alert("Hay un campo vacio. No se ha salvado");
-		return
-	}
-	createPicture({
-		title,
-		url,
-	});
-});
 
 //********FIRESTORE USERS COLLECTION******
 
@@ -105,64 +34,11 @@ const createUser = (user) => {
 		.catch((error) => console.error("Error adding document: ", error));
 };
 
-/* const readAllUsers = (born) => {
-  db.collection("nyt_books")
-	.where("first", "==", born)
-	.get()
-	.then((querySnapshot) => {
-	  querySnapshot.forEach((doc) => {
-		console.log(doc.data());
-	  });
-	});
-}; */
-
-// Read ONE
-function readOne(id) {
-	// Limpia el album para mostrar el resultado
-	cleanAlbum();
-
-	//Petición a Firestore para leer un documento de la colección album 
-	var docRef = db.collection("nyt_books").doc(id);
-
-	docRef.get().then((doc) => {
-		if (doc.exists) {
-			console.log("Document data:", doc.data());
-			printPhoto(doc.data().title, doc.data().url, doc.id);
-		} else {
-			// doc.data() will be undefined in this case
-			console.log("No such document!");
-		}
-	}).catch((error) => {
-		console.log("Error getting document:", error);
-	});
-
-}
-
 /**************Firebase Auth*****************/
-const signUpUser = (email, password) => {
-	firebase
-		.auth()
-		.createUserWithEmailAndPassword(email, password)
-		.then((userCredential) => {
-			// Signed in
-			let user = userCredential.user;
-			console.log(`se ha registrado ${user.email} ID:${user.uid}`)
-			alert(`se ha registrado ${user.email} ID:${user.uid}`)
-			// ...
-			// Saves user in firestore
-			createUser({
-				id: user.uid,
-				email: user.email,
-				favoritos: "p"
-			});
-		})
-		.catch((error) => {
-			console.log("Error en el sistema" + error.message, "Error: " + error.code);
-		});
-};
 
 getById("frm_signUp").addEventListener("submit", function (event) {
 	event.preventDefault();
+
 	let email = event.target.elements.email.value;
 	let pass = event.target.elements.pass.value;
 	let pass2 = event.target.elements.pass2.value;
@@ -172,35 +48,47 @@ getById("frm_signUp").addEventListener("submit", function (event) {
 
 getById("frm_signIn").addEventListener("submit", function (event) {
 	event.preventDefault();
+
 	let email = event.target.elements.email2.value;
 	let pass = event.target.elements.pass3.value;
-	signInUser(email, pass)
+	signInUser(email, pass);
 })
-
-//Read all
-getById("read-all").addEventListener("click", () => {
-	readAll();
-});
-
-//Read one
-getById('read-one').addEventListener("click", () => {
-	const id = prompt("Introduce el id a buscar");
-	readOne(id);
-});
-
-//Delete one
-getById('delete').addEventListener('click', () => {
-	deletePicture();
-});
-
-//Clean
-getById('clean').addEventListener('click', () => {
-	cleanAlbum();
-});
 
 getById("btn_signout").addEventListener('click', () => {
 	signOut();
 });
+
+const signUpUser = (email, password) => {
+	firebase
+		.auth()
+		.createUserWithEmailAndPassword(email, password)
+		.then((userCredential) => {
+			// Signed in
+			let user = userCredential.user;
+			let texto = `se ha registrado ${user.email} ID:${user.uid}`
+			console.log(texto);
+
+			getById("txtMensajeModal").innerHTML = texto;
+			MO_objID('txtModal', 'none');
+
+			appModal.boxModal.onclick = function() {
+				MO_objID('txtModal', 'block');
+				appModal.boxModal.classList.add('hidden');
+				window.location.reload();
+			};
+			// ...
+			// Saves user in firestore
+			createUser({
+				id: user.uid,
+				email: user.email,
+				favoritos: ""
+			});
+			
+		})
+		.catch((error) => {
+			console.log("Error en el sistema" + error.message, "Error: " + error.code);
+		});
+};
 
 const signInUser = (email, password) => {
 	firebase.auth().signInWithEmailAndPassword(email, password)
@@ -224,12 +112,17 @@ const signOut = () => {
 	let user = firebase.auth().currentUser;
 
 	firebase.auth().signOut()
-		.then(() => {
-			console.log("Saliste del sistema: " + user.email);
-			window.location.reload();
-		}).catch((error) => {
-			console.log("hubo un error: " + error);
-		});
+	.then(() => {
+		console.log("Saliste del sistema: " + user.email);
+		window.location.reload();
+	}).catch((error) => {
+		console.log("hubo un error: " + error);
+	});
+}
+
+function addFavoritos(categoria, libro){
+	//encontrarFavorito(categoria, libro);
+	updateFavoritos(categoria, libro);
 }
 
 // Listener de usuario en el sistema
@@ -239,7 +132,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 		console.log(`Está en el sistema:${user.email} ${user.uid}`);
 		//document.getElementById("message").innerText = `Está en el sistema: ${user.uid}`;
 
-        qSelector('#user-info p').innerHTML = "Usuario: " + user.email;
+        qSelector('#user-info p').innerHTML = "Usuario: " + user.email + " y " + user.uid;
 
         getById('user-icon').classList.add("user_active");
         
@@ -255,3 +148,90 @@ firebase.auth().onAuthStateChanged(function (user) {
 		MO_objID('logout', 'none'); // ocultamos la capa boxLogOut
 	}
 });
+
+function encontrarFavorito(categoria, textoFav){
+	// Asegúrate de que el UID está disponible
+	const user = firebase.auth().currentUser;
+
+	if (user) {
+		const uid = user.uid;
+		const favorito = textoFav; 
+
+		// si el usuario está activo y existe favorito
+		if (uid && favorito) {
+			
+			/* 
+			Filtrado de Documentos:
+			El primer where("id", "==", uid) filtra los documentos para que 
+			solo se devuelva aquellos donde el campo id coincide con el uid 
+			del usuario autenticado.
+			El segundo where("favoritos", "==", favorito) aplica un segundo filtro 
+			que restringe aún más los documentos devueltos, buscando aquellos que 
+			también tienen el campo favoritos igual al valor de favorito que estás 
+			buscando, que seria "textoFav" pasado por argumento
+			*/
+			const query = firebase.firestore().collection("nyt_books")
+				.where("id", "==", uid)
+				.where("favoritos", "==", favorito);
+
+			query.get()
+				.then((snapshot) => {
+					if (!snapshot.empty) {
+						snapshot.forEach(doc => {
+							console.log("Documento encontrado:", doc.id, "=>", doc.data());
+						});
+					} else {
+						console.log("No se encontró ningún documento que coincida con los criterios.");
+					}
+				})
+				.catch((error) => {
+					console.error("Error obteniendo documentos: ", error);
+				});
+		} else {
+			console.error("UID o favorito está indefinido.");
+		}
+	} else {
+		console.error("Usuario no autenticado.");
+	}
+}
+
+// Función para actualizar el campo "favoritos" de un documento
+function updateFavoritos(categoria, nuevoFavorito) {
+
+	const user = firebase.auth().currentUser;
+	
+	if (user) {
+		const userRef = firebase.firestore().collection('nyt_books').doc(user.uid);
+	
+		userRef.get().then(doc => {
+			// Inicializar el objeto favoritos si no existe
+			let favoritos = doc.exists ? doc.data().favoritos || {} : {};
+	
+			// Verificar si la categoría ya existe en favoritos
+			if (favoritos[categoria]) {
+				// Si la categoría existe, añadir el nuevo favorito al array si no existe ya
+				if (!favoritos[categoria].includes(nuevoFavorito)) {
+					favoritos[categoria].push(nuevoFavorito);
+				}
+			} else {
+				// Si la categoría no existe, crear un nuevo array con el favorito
+				favoritos[categoria] = [nuevoFavorito];
+			}
+	
+			// Actualizar el documento en Firestore
+			return userRef.set({
+				id: user.uid,
+				email: user.email,
+				favoritos: favoritos
+			}, { merge: true });
+		})
+		.then(() => {
+			console.log("Documento creado o actualizado con éxito.");
+		})
+		.catch(error => {
+			console.error("Error al crear o actualizar el documento:", error);
+		});
+	} else {
+		console.error("Usuario no autenticado.");
+	}
+}
