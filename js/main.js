@@ -1,4 +1,44 @@
 
+// getListadoCategorias()
+function getListadoCategorias(mURL) {
+
+    // mostramos la capa de cargar datos
+    MO_objID('boxCargarDatos', 'flex');
+
+    const url = mURL;
+
+    let resultado = fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                // si la respuesta no devuelve un ok
+                throw new Error(`API no encontrada: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // devolvemos el objeto.results
+            return data.results;
+        })
+        .catch(error => {
+            console.error('Error al conectar:', error);
+            
+            let cadena = "";
+            cadena += "Error al conectar con la BB.DD";
+
+            mostrarModal(cadena);
+            // definimos la funcionalidad del boton cerrar
+            appModal.boxModal.onclick = function() {
+                alert("Modal Cateorias")
+                appModal.boxModal.classList.add('hidden');
+            };
+        })
+        .finally(() => {
+            // ocultamos la capa de cargar datos
+            MO_objID('boxCargarDatos', 'none');
+        });
+    return resultado;
+}
+
 // pintarLibrosHTML
 async function pintarLibrosHTML(valor) {
 
@@ -78,43 +118,12 @@ async function pintarLibrosHTML(valor) {
 
         console.error(error);
         mostrarModal(error);
+        // definimos la funcionalidad del boton cerrar
+        appModal.boxModal.onclick = function() {
+            alert("Modal pintarLibros")
+            appModal.boxModal.classList.add('hidden');
+        };
     }
-}
-
-
-// getListadoCategorias()
-function getListadoCategorias(mURL) {
-
-    // mostramos la capa de cargar datos
-    MO_objID('boxCargarDatos', 'flex');
-
-    const url = mURL;
-
-    let resultado = fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                // si la respuesta no devuelve un ok
-                throw new Error(`API no encontrada: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // devolvemos el objeto.results
-            return data.results;
-        })
-        .catch(error => {
-            console.error('Error al conectar:', error);
-            
-            let cadena = "";
-            cadena += "Error al conectar con la BB.DD";
-
-            mostrarModal(cadena);
-        })
-        .finally(() => {
-            // ocultamos la capa de cargar datos
-            MO_objID('boxCargarDatos', 'none');
-        });
-    return resultado;
 }
 
 function pintarCategoriasBiblioteca(){
@@ -179,8 +188,57 @@ btn_volverIndice.addEventListener('click', () => {
 
 });
 
+getById('btn_signin').addEventListener('click', () => {
+    
+    let boxLOGINS = getById('boxLOGINS');
+    let divHTML = getById('box_signIn');
+
+    let modalContent = qSelector("#boxModal #txtModal");
+
+    modalContent.appendChild(divHTML);
+
+    MO_objID('boxModal', 'flex');
+    appModal.closeModal.addEventListener('click', () => {
+        boxLOGINS.appendChild(divHTML);
+        appModal.boxModal.classList.add('hidden');
+        MO_objID('boxModal', 'none');
+    });
+});
+
+getById('btn_signup').addEventListener('click', () => {
+    
+    let boxLOGINS = getById('boxLOGINS');
+    let divHTML = getById('box_signUp');
+    let modalContent = qSelector("#boxModal #txtModal");
+
+    modalContent.appendChild(divHTML);
+
+    MO_objID('boxModal', 'flex');
+    appModal.closeModal.addEventListener('click', () => {
+        boxLOGINS.appendChild(divHTML);
+        appModal.boxModal.classList.add('hidden');
+        MO_objID('boxModal', 'none');
+    });
+});
+
+function toggleUserInfo() {
+
+    let userIcon = getById("user-icon");
+    let userInfo = getById("user-info");
+
+    const currentStatus = userIcon.getAttribute("data-info");
+    if(currentStatus == "visible"){
+        MO_objID('user-info', 'none');
+        userIcon.setAttribute("data-info", 'none');
+    }
+    else {
+        MO_objID('user-info', 'block');
+        userIcon.setAttribute("data-info", 'visible');
+    }
+}
+
 window.addEventListener('load', () => {
     
     pintarCategoriasBiblioteca();
-
+    MO_objID('boxLibros', 'none'); // ocultamos la capa de cargar datos
 });

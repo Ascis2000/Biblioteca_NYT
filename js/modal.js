@@ -14,5 +14,6 @@ function mostrarModal(texto) {
 
 // Función para ocultar el modal
 appModal.closeModal.addEventListener('click', () => {
+
     appModal.boxModal.classList.add('hidden');
 });
