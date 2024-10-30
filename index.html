@@ -8,14 +8,80 @@
     <title>Biblioteca NYT</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/modal.css">
+    <link rel="stylesheet" href="./css/forms.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 
 <body>
 
 <main class="libros">
-    <h3>Biblioteca NYT</h3>
+    <div class="boxHeadUser">
+        <h3>Biblioteca NYT</h3>
 
+        <!-- Ícono de usuario de FontAwesome -->
+        <i id="user-icon" class="fas fa-user" data-info="none" onclick="toggleUserInfo()"></i>
+
+        <!-- Capa flotante para mostrar el correo electrónico con un botón de cierre -->
+        <div id="user-info" class="user-info">
+            <i class="fas fa-times close-icon" onclick="toggleUserInfo()"></i>
+            
+            <div id="boxAuth">
+                <div id="signup">
+                    <button id="btn_signup">Sign Up</button>
+                </div>
+                <div id="signin">
+                    <button id="btn_signin">Sign In</button>
+                </div>
+                <div id="logout">
+                    <button id="btn_signout">Logout</button>
+                </div>
+            </div>
+            <div>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="boxLOGINS">
+        <section id="button-set" style="display:none;">
+            <button id="create">Create</button>
+            <button id="read-all">Read All</button>
+            <button id="read-one">Find One by Id</button>
+            <button id="delete">Delete</button>
+            <button id="clean">Clean</button>
+        </section>
+
+        <div id="box_signUp">
+            <h3>Formulario de Registro</h3>
+            <form id="frm_signUp" action="#" method="POST" class="forms">
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Introduce email...">
+                    <label for="pass">Password:</label>
+                    <input type="password" id="pass" name="pass" placeholder="Introduce password...">
+                    <label for="pass2">Repite password:</label>
+                    <input type="password" id="pass2" name="pass2" placeholder="Repite password...">
+                    <input type="submit" value="Enviar">
+                </div>
+            </form>
+        </div>
+
+        <div id="box_signIn">
+            <h3>Formulario de Login</h3>
+            <form id="frm_signIn" action="#" method="POST" class="forms">
+                <div>
+                    <label for="email2">Email:</label>
+                    <input type="email" id="email2" name="email2" placeholder="Introduce email...">
+                    <label for="pass3">Password:</label>
+                    <input type="password" id="pass3" name="pass3" placeholder="Introduce password...">
+                    <input type="submit" value="Enviar">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div>
     <div id="boxCategoriasLibros">
         <div class="filters">
             <div id="txtInfoCategorias">
@@ -63,7 +129,9 @@
     <div id="boxModal" class="bg_modal hidden">
         <div class="modal white">
             <p id="txtModal"></p>
-            <button id="btn_closeModal" class="button">Cerrar</button>
+            <div class="buttonsModal">
+                <button id="btn_closeModal" class="button">Cerrar</button>
+            </div>
         </div>
     </div>
     
@@ -77,6 +145,17 @@
 </main>
 
 <script src="./js/utils.js"></script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+
+<script src="./js/firebase.js"></script>
+
 <script src="./js/modal.js"></script>
 <script src="./js/main.js"></script>
 

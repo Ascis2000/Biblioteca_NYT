@@ -35,15 +35,97 @@ main.libros {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-main.libros h3 {
+/* ******************************* */
+
+.boxHeadUser {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    position: relative;
+
+    border-radius: 5px 5px 5px 5px;
+    background-color: #add8e6;
+}
+
+.boxHeadUser h3 {
     margin: 0px 0 0 0;
-    padding:5px 5px 5px 10px;
+    padding:5px 5px 5px 5px;
 
     font-size:1.3em;
     text-align: left;
+}
+  
+#user-icon {
+    cursor: pointer;
+    font-size: 1.5em;
 
-    border-radius: 5px 0px 0px 5px;
-    background: linear-gradient(to right, #add8e6, rgba(173, 216, 230, 0));
+    padding: 5px;
+    margin-right: 5px;
+
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(76, 78, 80, 0.2); /* Sombra alrededor del ícono */
+}
+#user-icon:hover {
+    background-color: rgb(245, 248, 177);
+}
+  
+.user-info {
+    display: none;
+    position: absolute;
+    top: 35px; /* Ajusta para posicionar debajo del ícono */
+    right: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 9px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+  
+.user_active {
+    color: rgb(43, 187, 43);
+}
+.user_inactive {
+    color: rgb(184, 185, 187);
+}
+  
+.close-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #888;
+}
+
+#boxAuth {
+    display: flex;
+    gap: 10px; /* Espacio entre botones */
+    align-items: center; /* Alinear verticalmente */
+}
+
+#boxAuth button {
+    padding: 10px 10px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 1px solid rgb(255, 187, 0);
+    border-radius: 5px;
+    background-color: rgb(255, 246, 127);
+    color: #333;
+    box-shadow: 0 2px 3px rgba(34, 38, 44, 0.2);
+    transition: background-color 0.3s;
+}
+
+#boxAuth button:hover {
+    background-color: rgb(233, 225, 62);
+}
+
+/* ******************************* */
+
+#boxLOGINS {
+    display:none;
 }
 
 /* ******************************* */
@@ -86,14 +168,15 @@ main.libros h3 {
     gap: 10px;
     padding: 0px 0px 10px 0px;
 
-    display: flex;
+    display: grid;
     flex-wrap: wrap; 
     justify-content: space-between;
+    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
 }
 
 .box {
     padding: 10px;
-    flex: 1 1 25%;
+
     color: #888888;
     text-align: left;
     word-break: break-word;
@@ -204,12 +287,11 @@ label.num {
 /* ******************************* */
 
 .img_width {
+    width: 65%; 
+    height: auto; 
+    max-width: 100%; 
 
-    height: auto; /* Mantiene la proporción de la imagen */
-    max-width: 100%; /* Previene que la imagen se salga del contenedor */
-
-    width: 65%;       /* Ocupa el 75% del ancho del contenedor */
-    display: block;   /* Necesario para centrar con margin auto */
+    display: block;
     margin: 0 auto;
 
     border-radius: 5px;
