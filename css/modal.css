@@ -33,7 +33,6 @@
     background-color: rgba(0, 0, 0, 0.7); /* Fondo negro transparente */
 }
 
-
 .hidden {
     display: none;
 }
@@ -60,6 +59,12 @@
 .modal.black{
     color: rgb(255, 255, 255);
     background-color: #1e2d38;
+}
+
+#txtMensajeModal{
+    font-size: 0.8em;
+    text-align: center;
+    color: rgb(90, 120, 164);
 }
 
 .buttonsModal{
